@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { TasksService } from '../../services/tasks.service';
 import { AddTaskComponent } from '../add-task/add-task.component';
 
@@ -16,7 +17,7 @@ export class ListTasksComponent implements OnInit {
   users:any = []
 
   status:any = [
-    {name:"tasks.Complete",id:1 },
+    {name:"Complete",id:1 },
     {name:"	In-Progress" ,id:2},
   ]
   page:any = 1
@@ -27,7 +28,7 @@ export class ListTasksComponent implements OnInit {
   timeOutId:any
   total:any
 
-  constructor(private _TasksService:TasksService ,public dialog: MatDialog) {
+  constructor(private _TasksService:TasksService ,public dialog: MatDialog ,private toaster:ToastrService) {
     
    }
 
@@ -38,7 +39,9 @@ export class ListTasksComponent implements OnInit {
   getAllTasks(){
     this._TasksService.getAllTasks().subscribe({
       next:(res)=>{
-        this.dataSource=res.data
+        this.dataSource=res.tasks
+        console.log(this.dataSource);
+        
       },
       error:(err)=>{
         console.log(err);
@@ -49,19 +52,53 @@ export class ListTasksComponent implements OnInit {
 
   addTask(): void {
     const dialogRef = this.dialog.open(AddTaskComponent, {
-      width:"80%",
-      data: {name: "hi"},
+      width:"80%"
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.getAllTasks()
+
     });
   }
 
-  updateTask(x:any){
+  updateTask(e:any,ele:any){
+    console.log(ele);
+    
+    const dialogRef = this.dialog.open(AddTaskComponent, {
+      width:"80%",
+      data:ele
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.getAllTasks()
+
+    });
 
   }
-  deleteTask(x:any){
+  deleteTask(e:any,id:any){
+    this._TasksService.deleteTask(id).subscribe({
+      next:()=>{
+        this.toaster.success("Task Deleted Succesfully" , "Success")
+        this.getAllTasks()
+      },
+      error : ()=>{
+        this.toaster.success("Task Deleted faild" , "Faild")
+      }
+    })
+
+  }
+  selectData(e:any,x:any){
+
+  }
+  selectStatus(e:any){
+
+  }
+  selectUser(e:any){
+
+  }
+  search(e:any){
 
   }
 }
