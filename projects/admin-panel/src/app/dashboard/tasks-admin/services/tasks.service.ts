@@ -22,6 +22,10 @@ export class TasksService {
     return this.http.post(environment.baseApi + '/add-task',data)
   }
 
+  updateTask(id:any,data:CreateTask):Observable<any>{
+    return this.http.put(environment.baseApi+'/edit-task/'+id,data)
+  }
+
   deleteTask(id:any):Observable<any>{
     return this.http.delete(environment.baseApi+'/delete-task/'+id)
   }

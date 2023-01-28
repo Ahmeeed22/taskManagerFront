@@ -52,7 +52,8 @@ export class ListTasksComponent implements OnInit {
 
   addTask(): void {
     const dialogRef = this.dialog.open(AddTaskComponent, {
-      width:"80%"
+      width:"80%",
+      disableClose:true
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -67,12 +68,13 @@ export class ListTasksComponent implements OnInit {
     
     const dialogRef = this.dialog.open(AddTaskComponent, {
       width:"80%",
-      data:ele
+      disableClose:true,
+      data:ele,
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      // this.getAllTasks()
+      this.getAllTasks()
 
     });
 

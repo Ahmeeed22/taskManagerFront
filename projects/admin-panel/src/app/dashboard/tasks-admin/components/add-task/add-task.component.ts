@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { TasksService } from '../../services/tasks.service';
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
 
 @Component({
   selector: 'app-add-task',
@@ -11,18 +12,6 @@ import { TasksService } from '../../services/tasks.service';
   styleUrls: ['./add-task.component.scss']
 })
 export class AddTaskComponent implements OnInit {
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data:any,
-    private fb:FormBuilder , 
-    public dialog: MatDialogRef<AddTaskComponent> , 
-    public matDialog:MatDialog,
-    private service:TasksService,
-    private toaster:ToastrService,
-    // private userService:UsersService
-    ) {
-      //  this.getDataFromSubject()
-    }
-
   users:any = [
     {
       name:"Ahmed",
@@ -35,6 +24,20 @@ export class AddTaskComponent implements OnInit {
   fileName = ""
   newTaskForm!:FormGroup
   formValues:any
+
+ 
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data:any,
+    private fb:FormBuilder , 
+    public dialog: MatDialogRef<AddTaskComponent> , 
+    public matDialog:MatDialog,
+    private service:TasksService,
+    private toaster:ToastrService,
+    // private userService:UsersService
+    ) {
+      //  this.getDataFromSubject()
+    }
+
 
   
 
@@ -63,11 +66,11 @@ export class AddTaskComponent implements OnInit {
       userId : [this.data?.userId?._id || '' , Validators.required],
       image : [this.data?.image || '' , Validators.required],
       description : [this.data?.description || '' , Validators.required],
-      deadline: [ this.data ?  new Date(this.data?.deadline.split('-').reverse().join('-')).toISOString() : '', Validators.required]
+      deadline: [ this.data ? new Date(this.data.deadline.split('-').reverse().join('-')).toISOString() : '', Validators.required]
       // this.data ?  new Date(this.data?.deadline.split('-').reverse().join('-')).toISOString() : ''
     })
 
-    this.formValues = this.newTaskForm.value
+    this.formValues = {...this.newTaskForm.value}
   }
 
 
@@ -88,13 +91,13 @@ export class AddTaskComponent implements OnInit {
   }
 
   updateTask() {
-    // let model =  this.prepereFormData()
-    // this.service.updateTask(model , this.data._id).subscribe(res => {
-    //   this.toaster.success("Task Updated Succesfully" , "Success")
-    //   this.dialog.close(true)
-    // },error => {
-    //   this.toaster.error(error.error.message)
-    // })
+    let model : any=  this.prepereFormData()
+    this.service.updateTask(this.data._id, model ).subscribe(res => {
+      this.toaster.success("Task Updated Succesfully" , "Success")
+      this.dialog.close(true)
+    },error => {
+      this.toaster.error(error.error.message)
+    })
   }
 
   prepereFormData() {
@@ -114,20 +117,24 @@ export class AddTaskComponent implements OnInit {
     let hasChanges = false
     Object.keys(this.formValues).forEach((item) => { 
       if(this.formValues[item] !== this.newTaskForm.value[item])   {
+        console.log(this.formValues[item] , 'vs' , this.newTaskForm.value[item]);
+        
         hasChanges = true
       }
     })
 
     if(hasChanges) {
-      // const dialogRef = this.matDialog.open(ConfirmationComponent, {
-      //   width: '750px'
-      // });
+      const dialogRef = this.matDialog.open(ConfirmationComponent, {
+        width: '750px',
+      disableClose:true
+
+      });
   
-      // dialogRef.afterClosed().subscribe(result => {
-      //   if(result == true) {
+      dialogRef.afterClosed().subscribe(result => {
+        if(result == true) {
           
-      //   }
-      // });
+        }
+      });
     }else {
       this.dialog.close()
     }

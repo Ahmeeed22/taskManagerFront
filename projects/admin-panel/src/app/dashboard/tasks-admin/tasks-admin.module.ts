@@ -8,12 +8,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { DashboardRoutingModule } from '../dashboard-routing.module';
 import { MaterialModule } from '../../material/material.module';
+import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 
 
 @NgModule({
   declarations: [
     ListTasksComponent,
-    AddTaskComponent
+    AddTaskComponent,
+    ConfirmationComponent
   ],
   imports: [
     TasksAdminRoutingModule,
