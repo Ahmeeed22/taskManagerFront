@@ -16,6 +16,7 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>By User</mat-label>
                         <mat-select (selectionChange)="selectUser($event)">
+                          <mat-option>--no select--</mat-option>
                             <mat-option *ngFor="let user of users" [value]="user?.id">
                               {{user?.name}}
                             </mat-option>
@@ -26,6 +27,7 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Status</mat-label>
                         <mat-select (selectionChange)="selectStatus($event)">
+                            <mat-option>--no select--</mat-option>
                             <mat-option *ngFor="let item of status" [value]="item?.name">
                               {{item?.name}}
                             </mat-option>
@@ -35,14 +37,15 @@
                 <div class="col-md-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Enter a date range</mat-label>
-                        <mat-date-range-input [rangePicker]="picker">
-                          <input matStartDate placeholder="Start date" (dateChange)="selectData($event , 'fromDate')">
-                          <input matEndDate placeholder="End date" (dateChange)="selectData($event , 'toDate')">
+                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                          <input matStartDate formControlName="start" placeholder="Start date" (dateChange)="selectData($event , 'fromDate')" #start>
+                          <input matEndDate formControlName="end" placeholder="End date" (dateChange)="selectData($event , 'toDate')" #end>
                         </mat-date-range-input>
+                        <mat-icon *ngIf="range.controls.start.value || range.controls.end.value" matDatepickerToggleIcon (click)="resetDateRange()">clear</mat-icon>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-date-range-picker #picker></mat-date-range-picker>
                     </mat-form-field>
-                </div>  
+              </div>  
         </div>
     </form>
     <div class="listBox">

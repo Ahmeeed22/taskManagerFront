@@ -17,7 +17,7 @@ export class AddTaskComponent implements OnInit {
       name:"Ahmed",
       id:"63d36463a5a313fca07f9997"
     }, {
-      name:"Samy",
+      name:"Sayed",
       id:"63d3648ca5a313fca07f999a"
     },
 ]
@@ -86,7 +86,7 @@ export class AddTaskComponent implements OnInit {
       this.dialog.close(true)
     },error => {
       console.log(error);
-      // this.toaster.error(error.error.message)
+      this.toaster.error(error.error.message)
     })
   }
 
