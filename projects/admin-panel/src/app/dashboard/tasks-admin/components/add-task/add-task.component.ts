@@ -86,7 +86,7 @@ export class AddTaskComponent implements OnInit {
       this.dialog.close(true)
     },error => {
       console.log(error);
-      this.toaster.error(error.error.message)
+      // this.toaster.error(error.error.message)
     })
   }
 
@@ -96,7 +96,7 @@ export class AddTaskComponent implements OnInit {
       this.toaster.success("Task Updated Succesfully" , "Success")
       this.dialog.close(true)
     },error => {
-      this.toaster.error(error.error.message)
+      // this.toaster.error(error.error.message)
     })
   }
 

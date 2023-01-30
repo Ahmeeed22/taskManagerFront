@@ -1,6 +1,7 @@
 import { Component, OnInit ,ViewChild,ElementRef} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { TasksService } from '../../services/tasks.service';
@@ -29,19 +30,24 @@ export class ListTasksComponent implements OnInit {
     {name:"Complete",id:1 },
     {name:"In-Progress" ,id:2},
   ]
-  page:any = 1
+// pagination setup
+  length = 50;
+  pageSize = 3;
+  pageIndex = 0;
+  pageSizeOptions = [5, 10, 25];
+
+  hidePageSize = false;
+  showPageSizeOptions = true;
+  showFirstLastButtons = true;
+  disabled = false;
+  pageEvent !: PageEvent;
   filteration:any = {
-    page:this.page,
-    limit:10
+    page:this.pageIndex+1,
+    limit: this.pageSize
   }
   timeOutId:any
-  total:any
-  @ViewChild('start') start!: ElementRef;
-  @ViewChild('end') end!: ElementRef;
 
-  constructor(private _TasksService:TasksService ,public dialog: MatDialog ,private toaster:ToastrService) {
-    
-   }
+  constructor(private _TasksService:TasksService ,public dialog: MatDialog ,private toaster:ToastrService) {}
 
   ngOnInit(): void {
     this.getAllTasks();
@@ -50,13 +56,16 @@ export class ListTasksComponent implements OnInit {
   getAllTasks(){
     this._TasksService.getAllTasks(this.filteration).subscribe({
       next:(res)=>{
+        console.log(res);
+        this.length=res.totalItems
         this.dataSource=res.tasks
         console.log(this.dataSource);
+        this.toaster.success("success")
         
       },
       error:(err)=>{
-        console.log(err);
-        
+        // console.log(err);
+        // this.toaster.error('errrrrror')
       }
     })
   }
@@ -97,17 +106,19 @@ export class ListTasksComponent implements OnInit {
         this.getAllTasks()
       },
       error : ()=>{
-        this.toaster.success("Task Deleted faild" , "Faild")
+        // this.toaster.error("Task Deleted faild" , "Faild")
       }
     })
 
   }
   selectStatus(e:any){
     console.log(e.value);
+    this.resetPagination()
     this.filteration.status=e.value ;
     this.getAllTasks()
   }
   selectUser(e:any){
+    this.resetPagination()
     this.filteration['userId']=e.value
     this.getAllTasks()  
   }
@@ -121,21 +132,47 @@ export class ListTasksComponent implements OnInit {
     this.range.reset();
     this.filteration.fromDate=null
     this.filteration.toDate=null
+    this.resetPagination()
     this.getAllTasks() 
   }
 
   selectData(e:any,type:any){
+    this.resetPagination()
     this.filteration[type]= moment(e.value).format('DD-MM-YYYY') ;
    (type==='toDate' && this.filteration.toDate !=='Invalid date')? this.getAllTasks() : ''
   }
   search(e:any){
+    this.resetPagination()
     this.filteration.keyword= e.value ;
     clearTimeout( this.timeOutId)
     this.timeOutId=setTimeout(() => {
       this.getAllTasks()
-    }, 1000);    
+    }, 600);    
 
   }
+
+  resetPagination(){
+    this.filteration.page=1 ;
+    this.pageSize = 3;
+    this.pageIndex =0;
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.pageEvent = e;
+    this.length = e.length;
+    this.pageSize = e.pageSize;
+    this.pageIndex = e.pageIndex;
+    this.filteration.page=e.pageIndex+1 ;
+    this.filteration.limit=e.pageSize ;
+    this.getAllTasks()
+  }
+
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    if (setPageSizeOptionsInput) {
+      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+    }
+  }
+
 }
 
 

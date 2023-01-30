@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { TasksAdminRoutingModule } from './tasks-admin-routing.module';
 import { ListTasksComponent } from './components/list-tasks/list-tasks.component';
 import { AddTaskComponent } from './components/add-task/add-task.component';
@@ -29,7 +28,6 @@ import { ConfirmationComponent } from './components/confirmation/confirmation.co
 })
 export class TasksAdminModule { 
   constructor(){
-    console.log("testtttt");
     
   }
   

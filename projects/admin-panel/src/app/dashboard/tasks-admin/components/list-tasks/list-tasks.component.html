@@ -61,7 +61,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let task of dataSource;let index=index" class="text-center">
+              <tr *ngFor="let task of dataSource  ;let index=index" class="text-center">
                 <td>{{index+1}}</td>
                 <td>{{task.title}}</td>
                 <td>{{task.userId.username}}</td>
@@ -73,48 +73,22 @@
              
             </tbody>
           </table>
-        <!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8  w-100 mt-2">
-
-            <ng-container matColumnDef="position">
-              <th mat-header-cell *matHeaderCellDef>  </th>
-              <td mat-cell *matCellDef="let element;let index = index"> 
-                <img [src]="'https://crud-107i.onrender.com/'+ element.image" alt="">  
-              </td>
-            </ng-container>
-          
-            <ng-container matColumnDef="title">
-              <th mat-header-cell *matHeaderCellDef> Title </th>
-              <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-            </ng-container>
-          
-            <ng-container matColumnDef="user">
-              <th mat-header-cell *matHeaderCellDef> User </th>
-              <td mat-cell *matCellDef="let element"> {{element.user}} </td>
-            </ng-container>
-          
-            <ng-container matColumnDef="deadline">
-                <th mat-header-cell *matHeaderCellDef> DeadLine Date </th>
-                <td mat-cell *matCellDef="let element"> {{element.deadline}} </td>
-              </ng-container>
-            <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef> Status </th>
-                <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-              </ng-container>
-
-            <ng-container matColumnDef="actions" >
-                <th mat-header-cell *matHeaderCellDef class="w-20">  </th>
-                <td mat-cell *matCellDef="let element; let index = index">   
-                    <button class="btn btn-warning" mat-raised-button (click)="updateTask(element)">Update</button>
-                    <button  mat-raised-button color="warn" (click)="deleteTask(element._id)">Delete</button>
-                </td>
-              </ng-container>
-          
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row>test</tr>
-          </table> -->
-          
-          <div class="d-flex justify-content-center">
-            <!-- <pagination-controls (pageChange)="changePage($event)" id="tasks"></pagination-controls> -->
+          <div class="d-flex justify-content-center ">
+            <mat-paginator #paginator
+                 class="demo-paginator bg-info text-white  font-weight-light border rounded"
+                 (page)="handlePageEvent($event)"
+                 [length]="length"
+                 [pageSize]="pageSize"
+                 [disabled]="disabled"
+                 [showFirstLastButtons]="showFirstLastButtons"
+                 [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+                 [hidePageSize]="hidePageSize"
+                 [pageIndex]="pageIndex"
+                 aria-label="Select page">
+            </mat-paginator>
           </div>
+
+
+
     </div>
 </div>

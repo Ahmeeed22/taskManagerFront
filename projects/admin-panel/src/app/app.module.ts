@@ -24,6 +24,7 @@ import { CoreModule } from './core/core.module';
     NgxSpinnerModule,
     CoreModule,
   ],
+  exports:[],
   providers: [],
   bootstrap: [AppComponent]
 })
