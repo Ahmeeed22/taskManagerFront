@@ -5,18 +5,26 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     ToastrModule.forRoot(), 
     NgxSpinnerModule,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [ ToastrService],
   bootstrap: [AppComponent]
 })

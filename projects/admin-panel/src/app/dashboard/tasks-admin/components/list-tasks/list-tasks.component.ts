@@ -2,6 +2,7 @@ import { Component, OnInit ,ViewChild,ElementRef} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { TasksService } from '../../services/tasks.service';
@@ -27,8 +28,8 @@ export class ListTasksComponent implements OnInit {
   ]
 
   status:any = [
-    {name:"Complete",id:1 },
-    {name:"In-Progress" ,id:2},
+    {name:this.translate.instant("tasks.Complete"),id:1 },
+    {name:this.translate.currentLang=='en'?"In-Progress":'جاري التنفيذ' ,id:2},
   ]
 // pagination setup
   length = 50;
@@ -47,7 +48,7 @@ export class ListTasksComponent implements OnInit {
   }
   timeOutId:any
 
-  constructor(private _TasksService:TasksService ,public dialog: MatDialog ,private toaster:ToastrService) {}
+  constructor(private _TasksService:TasksService ,public dialog: MatDialog ,private toaster:ToastrService,private translate:TranslateService) {}
 
   ngOnInit(): void {
     this.getAllTasks();

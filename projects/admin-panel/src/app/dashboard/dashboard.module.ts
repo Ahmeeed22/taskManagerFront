@@ -6,6 +6,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { MaterialModule } from '../material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(), 
+    SharedModule
 
   ],
   providers: [ ToastrService],

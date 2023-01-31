@@ -8,6 +8,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { DashboardRoutingModule } from '../dashboard-routing.module';
 import { MaterialModule } from '../../material/material.module';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { ConfirmationComponent } from './components/confirmation/confirmation.co
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(), 
+    SharedModule
   ]
 })
 export class TasksAdminModule { 

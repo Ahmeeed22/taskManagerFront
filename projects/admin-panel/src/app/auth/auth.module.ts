@@ -6,6 +6,7 @@ import { LoginComponent } from './conponents/login/login.component';
 import { MaterialModule } from '../material/material.module';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { RegisterationComponent } from './conponents/registeration/registeration.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { RegisterationComponent } from './conponents/registeration/registeration
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(), 
+    SharedModule
 
   ],
   providers: [ ToastrService],
